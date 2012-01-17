@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta name = "viewport" content = "initial-scale = 1.0"> 
+  <meta name = "viewport" content = "width = device-width">
+<style>
+  .plane {font-size: 200px; display: inline-block;}
+ </style>
+<script>
+  var q = function (x) {
+    return document.querySelector(x);
+  }
+  window.onload = function () {
+    var plane = q("#plane")
+    var plane2 = q("#plane2")
+    var plane2w1 = q("#plane2w1")
+    var plane2w2 = q("#plane2w2")
+    var plane3 = q("#plane3")
+    x = q("#x")
+    y = q("#y")
+    z = q("#z")
+    
+    updateSelect = function () {
+      console.log("rotate("+x.value+","+y.value+", "+z.value+")")
+      //plane.style.webkitTransform = "rotate3d("+x.value+","+y.value+", "+z.value+", 10deg)"
+      plane.style.webkitTransform = "rotateX("+x.value+"deg) rotateY("+y.value+"deg) rotateZ("+z.value+"deg)"
+      //plane2.style.webkitTransform = "rotateX("+x.value+"deg) rotateZ("+z.value+"deg) rotateY("+y.value+"deg)"
+      //plane3.style.webkitTransform = "rotateY("+y.value+"deg) rotateX("+x.value+"deg) rotateZ("+z.value+"deg)"
+      
+    }
+    x.onchange = updateSelect
+    y.onchange = updateSelect
+    z.onchange = updateSelect
+
+    q("#reset").onclick = function ( ){
+      z.value = 0
+      x.value = 0
+      y.value = 0
+      updateSelect()
+    }   
+  }
+
+</script>
+</head>
+<body>
+  <div id="plane" class="plane">A</div>
+
+  <br />
+  <input type=range min="-360" max="360" id="x" /><br/>
+  <input type=range min="-360" max="360" id="y" /><br/>
+  <input type=range min="-360" max="360" id="z" /><br/>
+  <input type="button" id="reset" value="reset" >
+</body>
+</html>
+

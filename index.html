@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+    #v {display: inline-block;}
+  </style>
+<script>
+  var q = function (x) {
+    return document.querySelector(x);
+  }
+  window.onload = function () {
+    var v = q("#v");
+    var a = q("#a");
+    var b = q("#b");
+    var g = q("#g");
+    var compass = q("#compass");
+    var yawOffset = 0
+    var rollOffset = 0
+    var xOffset = 0
+    var yOffset = 0
+    var currentOrient = {}
+    var move = true;
+    window.ontouchend = function (e) {
+      var matches = v.style.webkitTransform.match(/translate\(([^\)]+), ([^\)]+)\)/)
+      console.log(v.style.webkitTransform)
+      yawOffset = currentAdjustedOrent.alpha;
+      rollOffset = currentOrient.gamma;
+      xOffset = parseFloat(matches[1]);
+      yOffset = parseFloat(matches[2]);
+      console.log(yOffset)
+      move = true;
+    }
+    
+    window.ontouchstart = function (e) {
+      e.preventDefault()
+      move = false; 
+    }
+    var gotInitial = false
+    var loops = 0
+    var loopsDiv = q("#loops");
+    var adjustedOrient = {alpha: 0}
+    window.ondeviceorientation = function (e) {
+      if (!gotInitial) {
+        currentOrient = e
+        yawOffset = e.alpha
+        rollOffset = e.gamma
+        gotInitial = true;
+      }
+
+      if (e.alpha - currentOrient.alpha > 300) {
+        loops -= 1
+      } else if (e.alpha - currentOrient.alpha < -300) {
+        loops += 1
+      }
+      adjustedOrient = {alpha: e.alpha + 365 * loops}
+      currentOrient = e
+      currentAdjustedOrent = adjustedOrient
+      if (!move) return;
+      //b.innerHTML = Math.round(e.beta / 45) * 45
+      //a.innerHTML = Math.round(e.alpha / 45) * 45
+      //g.innerHTML = Math.round(e.gamma / 45) * 45
+      b.innerHTML = Math.floor(e.beta)
+      a.innerHTML = Math.floor(adjustedOrient.alpha)
+      g.innerHTML = Math.floor(e.gamma)
+      compass.innerHTML = Math.floor(e.webkitCompassHeading)
+      loopsDiv.innerHTML = loops
+      for (var x in e) {
+       // console.log(x)
+      }
+      var f = 10
+      
+      yawMove = adjustedOrient.alpha - yawOffset
+      rollMove = e.gamma - rollOffset
+
+      t = "rotateZ(90deg) " + //"rotateZ("+ -e.beta+"deg)" +
+      "translate("+(f*(yawMove) + xOffset)+ "px, "+ (-f*(rollMove) + yOffset) +"px)";
+      //console.log(v.style.webkitTransform)
+      v.style.webkitTransform = t
+    }
+
+  
+  }
+</script>
+</head>
+<body>
+  yaw<div id="a"> </div>
+  pitch<div id="b"> </div>
+  roll<div id="g"> </div>
+  <div id="compass"> </div>
+  <div id="loops"> </div>
+  <div id="v">
+    <br />
+    <img src="http://cpartipilo.files.wordpress.com/2011/02/large_brown_bearkodiak.jpg" />  
+  </div>
+</html>
