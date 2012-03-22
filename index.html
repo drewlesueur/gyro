@@ -10,6 +10,7 @@
   }
   window.onload = function () {
     var v = q("#v");
+    v.style.webkitTransition = "-webkit-transform 0.1s linear"
     var a = q("#a");
     var b = q("#b");
     var g = q("#g");
@@ -52,7 +53,7 @@
       } else if (e.alpha - currentOrient.alpha < -300) {
         loops += 1
       }
-      adjustedOrient = {alpha: e.alpha + 365 * loops}
+      adjustedOrient = {alpha: e.alpha + 360 * loops}
       currentOrient = e
       currentAdjustedOrent = adjustedOrient
       if (!move) return;
@@ -67,7 +68,7 @@
       for (var x in e) {
        // console.log(x)
       }
-      var f = 10
+      var f = 20
       
       yawMove = adjustedOrient.alpha - yawOffset
       rollMove = e.gamma - rollOffset
@@ -83,6 +84,11 @@
 </script>
 </head>
 <body>
+  Turn portrait lock on. <br />
+  Hold your phone sideways<br/>
+  Look down <br /> 
+  hold the bear with your finger, then move the phone, then release <br /> 
+
   yaw<div id="a"> </div>
   pitch<div id="b"> </div>
   roll<div id="g"> </div>
